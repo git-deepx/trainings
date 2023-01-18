@@ -1,10 +1,10 @@
-package com.day3Task1;
+package day3Task2;
 
 public class Employee {
-	String name;
-	String id;
-	Integer age;
-	String nationality;
+	private String name;
+	private String id;
+	private Integer age;
+	private String nationality;
 
 	public Employee(String name, String id, Integer age, String nationality) {
 		this.name = name;
@@ -33,6 +33,11 @@ public class Employee {
 	public String toString() {
 		return name + " " + id + " " + age + " " + nationality; // anything you want to return, in this case all the
 																// values in the class
+	}
+
+	public void something() {
+		// TODO Auto-generated method stub
+		System.out.println("do something");
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.springTutorial.demo;
+package day3Task2;
 
 public class ArithmeticOperation {
 	public void calculate(Integer a, Integer b) {
