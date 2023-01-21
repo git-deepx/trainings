@@ -1,12 +1,14 @@
-package day3Task2;
+package com.deep;
+
+import java.math.BigDecimal;
 
 public class Employee {
 	private String name;
-	private String id;
+	private BigDecimal id;
 	private Integer age;
 	private String nationality;
 
-	public Employee(String name, String id, Integer age, String nationality) {
+	public Employee(String name, BigDecimal id, Integer age, String nationality) {
 		this.name = name;
 		this.id = id;
 		this.age = age;
@@ -17,7 +19,7 @@ public class Employee {
 		return name;
 	}
 
-	public String getId() {
+	public BigDecimal getId() {
 		return id;
 	}
 

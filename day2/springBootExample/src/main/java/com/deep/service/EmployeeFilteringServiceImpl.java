@@ -1,5 +1,6 @@
-package day3Task2;
+package com.deep.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,38 +8,27 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import com.deep.Employee;
+
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeFilteringServiceImpl implements EmployeeFilteringService{
+public class EmployeeFilteringServiceImpl implements EmployeeFilteringService {
 	private List<Employee> emp = new ArrayList<>();
-	
+
 	public EmployeeFilteringServiceImpl() {
 		super();
 		System.out.println("in efs const");
 	}
-	
-	
+
 	@Override
 	public void addData() {
-		emp.add(new Employee("Deep", "7000033080", 50, "Indian"));
-		emp.add(new Employee("Shubham", "7000033092", 13, "Indian"));
-		emp.add(new Employee("Nadeem", "7000033111", 22, "Indian"));
-		emp.add(new Employee("Manisha", "7000031720", 22, "Indian"));
-	}
-
-
-	@Override
-	public void scenerio1() {
-
-		Addition add = new Addition();
-		add.calculate(1, 2);
-
-		Subtraction diff = new Subtraction();
-		diff.calculate(1, 2);
-
-		Multiplication prod = new Multiplication();
-		prod.calculate(1, 2);
+		emp.add(new Employee("Deep", new BigDecimal("7000033080"), 50, "Indian"));
+		emp.add(new Employee("Shubham", new BigDecimal("7000033092"), 13, "Indian"));
+		emp.add(new Employee("Nadeem", new BigDecimal("7000033111"), 22, "Indian"));
+		emp.add(new Employee("Manisha", new BigDecimal("7000031720"), 22, "Indian"));
 	}
 
 	@Override
@@ -60,7 +50,7 @@ public class EmployeeFilteringServiceImpl implements EmployeeFilteringService{
 
 	@Override
 	public void scenerio4() {
-		Map<String, String> empMap = emp.stream().collect(Collectors.toMap(Employee::getId, Employee::getName));
+		Map<BigDecimal, String> empMap = emp.stream().collect(Collectors.toMap(Employee::getId, Employee::getName));
 
 		System.out.println(empMap);
 	}
@@ -68,7 +58,7 @@ public class EmployeeFilteringServiceImpl implements EmployeeFilteringService{
 	@Override
 	public void scenerio5() {
 		List<String> empNames = emp.stream().map(obj -> obj.getName()).collect(Collectors.toList());
-		emp.add(new Employee("Manisha", "7000033927", 22, "Indian"));
+		emp.add(new Employee("Manisha", new BigDecimal("7000033927"), 22, "Indian"));
 
 		Set<String> empNamesSet = empNames.stream().collect(Collectors.toSet());
 		System.out.println(empNamesSet);
@@ -105,11 +95,53 @@ public class EmployeeFilteringServiceImpl implements EmployeeFilteringService{
 	public void scenerio10() {
 
 		List<String> empNames = emp.stream().map(obj -> obj.getName()).collect(Collectors.toList());
-		emp.add(new Employee("Manisha", "7000033927", 22, "Indian"));
 
 		String joinedEmp = empNames.stream().collect(Collectors.joining(", "));
-
 		System.out.println(joinedEmp);
+	}
+
+	@Override
+	public List<Employee> getAllEmp() {
+		return emp;
+	}
+
+	@Override
+	public Employee addEmp(Employee employee) {
+		emp.add(employee);
+		System.out.println("Employee Added");
+		return employee;
+	}
+
+	@Override
+	public List<Employee> delEmp(BigDecimal empId) {
+
+		java.util.Iterator<Employee> itr = emp.iterator();
+
+		while (itr.hasNext()) {
+			Employee e = itr.next();
+			System.out.println(e.getId() + "\n");
+			if (e.getId().compareTo(empId) == 0) {
+				itr.remove();
+				return emp;
+			}
+		}
+
+		System.out.println("Cannot Delete, Please Enter Vaild Employee ID");
+		return emp;
+	}
+
+	@Override
+	public List<Employee> getEmpById(BigDecimal empId) {
+		List<Employee> employee = new ArrayList<>();
+
+		for (Employee e : emp) {
+			if (e.getId().compareTo(empId) == 0) {
+				employee.add(e);
+				return employee;
+			}
+		}
+
+		return null;
 	}
 
 }

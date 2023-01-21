@@ -1,12 +1,11 @@
-package day3Task2;
+package com.deep;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "day3Task2")
+@ComponentScan(basePackages = "com.deep")
 public class DemoApplication {
 
     public static void main(String[] args) {
