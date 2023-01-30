@@ -2,33 +2,29 @@ package com.deep.controller;
 
 import com.deep.DTO.EmployeeDetailWsDTO;
 import com.deep.DTO.EmployeeResponseWsDTO;
-import com.deep.Employee;
+import com.deep.entity.Employee;
 import com.deep.facade.EmployeeFilteringFacade;
+import com.deep.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Deepak Kumar Thakur
  */
+
 @RestController
 public class ControllerHome {
 
     @Autowired
     private EmployeeFilteringFacade eff;
 
-    /**
-     * Handles the home page for the application
-     */
-    @GetMapping("/home")
-    public String home() {
-        eff.day3();
-        return String.format("Welcome buddies!!!");
-    }
+    @Autowired
+    private EmployeeRepository repository;
 
     /**
      * Populates the employeeResponse
@@ -48,21 +44,20 @@ public class ControllerHome {
      * Returns Employees Data
      */
     @GetMapping("/employee")
-    public EmployeeResponseWsDTO getEmp(@RequestParam(name = "empId", defaultValue = "0") BigDecimal empId) {
+    public EmployeeResponseWsDTO getEmp(@RequestParam(name = "empId", defaultValue = "0") Long empId) {
 
         List<Employee> employee;
         EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
 
         try {
-            if (empId.compareTo(BigDecimal.valueOf(0)) == 0) {
+            if (empId.compareTo(Long.valueOf(0)) == 0) {
                 employee = eff.getAllEmp();
             } else {
-                employee = eff.getEmpById(empId);
+                employee = eff.getEmpById(empId).stream().toList();
             }
             populateEmployeeResponse(employee, response);
 
         } catch (Exception e) {
-
         }
 
         return response;
@@ -72,50 +67,56 @@ public class ControllerHome {
      * Insert new Employees to the list
      */
     @PostMapping(path = "/employee", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public EmployeeResponseWsDTO addEMp(@RequestBody Employee employee) {
+    public EmployeeResponseWsDTO addEmp(@RequestBody Employee employee) {
 
         EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
 
         try {
-            eff.addEmp(employee);
+            if (repository.findById(employee.getId()).isPresent()) {
+                System.out.println("ID already exists");
+            }
+            else {
+                eff.addEmp(employee);
+            }
             populateEmployeeResponse(eff.getAllEmp(), response);
-        } catch (Exception e) {
-
+        }
+        catch(Exception e) {
         }
 
         return response;
     }
 
-//    /**
-//     * Deletes employee based on Employee Id
-//     */
-//    @DeleteMapping("/employee")
-//    public EmployeeResponseWsDTO delEmp(@RequestParam(name = "empId", defaultValue = " ") String empId) {
-//        EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
-//
-//        try {
-//            eff.delEmp(empId);
-//            response.setResponse(true);
-//        } catch (Exception e) {
-//            response.setResponse(false);
-//        }
-//
-//        return response;
-//    }
+    /**
+     * Deletes employee based on Employee Id
+     */
+    @DeleteMapping("/employee")
+    public EmployeeResponseWsDTO delEmp(@RequestParam(name = "empId", defaultValue = " ") Long empId) {
 
-//	@PutMapping("/employee")
-//	public EmployeeResponseWsDTO updateEmp(@RequestParam(name = "empId", defaultValue = " ") String empId,
-//			@RequestBody Employee employee) {
-//		EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
-//
-//		try {
-//			eff.updateEmp(empId, employee);
-//			response.setResponse(true);
-//		} catch (Exception e) {
-//			response.setResponse(false);
-//		}
-//
-//		return response;
-//	}
+        EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
+
+        try {
+            eff.delEmp(empId);
+            populateEmployeeResponse(eff.getAllEmp(), response);
+        } catch (Exception e) {
+            System.out.println("in exception");
+        }
+
+        return response;
+    }
+
+	@PutMapping("/employee")
+	public EmployeeResponseWsDTO updateEmp(@RequestBody Employee employee) {
+		EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
+
+        if (repository.findById(employee.getId()).isPresent()) {
+            eff.addEmp(employee);
+            populateEmployeeResponse(eff.getAllEmp(), response);
+        }
+        else {
+            System.out.println("ID Not Found");
+        }
+
+		return response;
+	}
 
 }

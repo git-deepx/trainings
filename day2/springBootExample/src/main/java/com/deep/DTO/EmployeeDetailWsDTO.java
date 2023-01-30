@@ -1,22 +1,20 @@
 package com.deep.DTO;
 
-import java.math.BigDecimal;
-
 public class EmployeeDetailWsDTO {
 
-    private BigDecimal id;
+    private Long id;
     private String name;
 
-    public EmployeeDetailWsDTO(String name, BigDecimal id) {
+    public EmployeeDetailWsDTO(String name, Long id) {
         this.name = name;
         this.id = id;
     }
 
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

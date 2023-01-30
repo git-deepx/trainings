@@ -1,20 +1,20 @@
 package com.deep.facade;
 
-import java.math.BigDecimal;
+import com.deep.entity.Employee;
+
 import java.util.List;
-import com.deep.Employee;
+import java.util.Optional;
 
 public interface EmployeeFilteringFacade {
-	void day3();
 
-	List<Employee> getAllEmp();
+    List<Employee> getAllEmp();
 
-	List<Employee> getEmpById(BigDecimal empId);
-	
-	Employee addEmp(Employee employee);
+    Optional<Employee> getEmpById(Long empId);
 
-	List<Employee> delEmp(BigDecimal empId);
+    Employee addEmp(Employee employee);
 
-	void updateEmp(String empId, Employee employee);
+    List<Employee> delEmp(Long empId);
+
+    void updateEmp(Employee employee);
 
 }
