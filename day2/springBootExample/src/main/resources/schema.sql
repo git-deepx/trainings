@@ -7,5 +7,7 @@ CREATE TABLE EMPLOYEE(
 );
 
 
---- facing issues with generating ID's using @generated annotation
---- issues with sequences
+-- facing issues with generating ID's using @generated annotation
+-- issues with sequences
+--@Mockbean is giving NULL error
+--in update -> we using repo.save only

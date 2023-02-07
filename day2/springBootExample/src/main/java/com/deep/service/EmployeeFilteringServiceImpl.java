@@ -44,14 +44,11 @@ public class EmployeeFilteringServiceImpl implements EmployeeFilteringService {
     }
 
     @Override
-    public List<Employee> delEmp(Long empId) {
+    public void delEmp(Long empId) {
 
         try {
             repository.deleteById(empId);
-            return repository.findAll();
         } catch (Exception e) {
         }
-
-        return null;
     }
 }

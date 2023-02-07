@@ -1,15 +1,10 @@
 package com.deep;
 
-import com.deep.entity.Employee;
 import com.deep.repository.EmployeeRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.math.BigInteger;
 
 @SpringBootApplication
 //@RestController
@@ -20,7 +15,7 @@ public class DemoApplication {
     EmployeeRepository repository;
 
     public static void main(String[] args) {
-    	SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(DemoApplication.class, args);
         System.out.println("DemoApplication");
     }
 

@@ -1,6 +1,5 @@
 package com.deep.controller;
 
-import com.deep.DTO.EmployeeDetailWsDTO;
 import com.deep.DTO.EmployeeResponseWsDTO;
 import com.deep.entity.Employee;
 import com.deep.facade.EmployeeFilteringFacade;
@@ -9,14 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * @author Deepak Kumar Thakur
+ * @author deepx
  */
-
 @RestController
 public class ControllerHome {
 
@@ -25,20 +21,6 @@ public class ControllerHome {
 
     @Autowired
     private EmployeeRepository repository;
-
-    /**
-     * Populates the employeeResponse
-     */
-    private void populateEmployeeResponse(List<Employee> employee,
-                                          EmployeeResponseWsDTO response) {
-
-        List<EmployeeDetailWsDTO> employees = new ArrayList<>();
-
-        employee.forEach(emp -> {
-            employees.add(new EmployeeDetailWsDTO(emp.getName(), emp.getId()));
-        });
-        response.setEmployees(employees);
-    }
 
     /**
      * Returns Employees Data
@@ -55,7 +37,7 @@ public class ControllerHome {
             } else {
                 employee = eff.getEmpById(empId).stream().toList();
             }
-            populateEmployeeResponse(employee, response);
+            eff.populateEmployeeResponse(employee, response);
 
         } catch (Exception e) {
         }
@@ -74,13 +56,11 @@ public class ControllerHome {
         try {
             if (repository.findById(employee.getId()).isPresent()) {
                 System.out.println("ID already exists");
-            }
-            else {
+            } else {
                 eff.addEmp(employee);
             }
-            populateEmployeeResponse(eff.getAllEmp(), response);
-        }
-        catch(Exception e) {
+            eff.populateEmployeeResponse(eff.getAllEmp(), response);
+        } catch (Exception e) {
         }
 
         return response;
@@ -96,7 +76,7 @@ public class ControllerHome {
 
         try {
             eff.delEmp(empId);
-            populateEmployeeResponse(eff.getAllEmp(), response);
+            eff.populateEmployeeResponse(eff.getAllEmp(), response);
         } catch (Exception e) {
             System.out.println("in exception");
         }
@@ -104,19 +84,18 @@ public class ControllerHome {
         return response;
     }
 
-	@PutMapping("/employee")
-	public EmployeeResponseWsDTO updateEmp(@RequestBody Employee employee) {
-		EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
+    @PutMapping("/employee")
+    public EmployeeResponseWsDTO updateEmp(@RequestBody Employee employee) {
+        EmployeeResponseWsDTO response = new EmployeeResponseWsDTO();
 
         if (repository.findById(employee.getId()).isPresent()) {
             eff.addEmp(employee);
-            populateEmployeeResponse(eff.getAllEmp(), response);
-        }
-        else {
+            eff.populateEmployeeResponse(eff.getAllEmp(), response);
+        } else {
             System.out.println("ID Not Found");
         }
 
-		return response;
-	}
+        return response;
+    }
 
 }

@@ -5,6 +5,9 @@ public class EmployeeDetailWsDTO {
     private Long id;
     private String name;
 
+    public EmployeeDetailWsDTO() {
+    }
+
     public EmployeeDetailWsDTO(String name, Long id) {
         this.name = name;
         this.id = id;
@@ -24,6 +27,14 @@ public class EmployeeDetailWsDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeDetailWsDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
 }

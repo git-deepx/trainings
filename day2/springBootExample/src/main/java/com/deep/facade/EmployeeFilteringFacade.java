@@ -1,5 +1,6 @@
 package com.deep.facade;
 
+import com.deep.DTO.EmployeeResponseWsDTO;
 import com.deep.entity.Employee;
 
 import java.util.List;
@@ -13,8 +14,11 @@ public interface EmployeeFilteringFacade {
 
     Employee addEmp(Employee employee);
 
-    List<Employee> delEmp(Long empId);
+    void delEmp(Long empId);
 
     void updateEmp(Employee employee);
+
+    void populateEmployeeResponse(List<Employee> employee,
+                                  EmployeeResponseWsDTO response);
 
 }

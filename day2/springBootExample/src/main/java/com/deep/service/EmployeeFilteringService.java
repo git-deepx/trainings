@@ -11,7 +11,7 @@ public interface EmployeeFilteringService {
 
     Optional<Employee> getEmpById(Long empId);
 
-    List<Employee> delEmp(Long empId);
+    void delEmp(Long empId);
 
     Employee addEmp(Employee employee);
 
